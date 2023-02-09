@@ -6,12 +6,13 @@ function Gameboard() {
 
 	const createGrid = () => {
 		const gridArray = [];
-		for (let i = 0; i < 10; i++) {
-			for (let j = 0; j < 10; j++) {
+		for (let i = 1; i < 11; i++) {
+			for (let j = 1; j < 11; j++) {
 				gridArray.push({
 					x: i,
 					y: j,
 					occupied: false,
+					shipType: false,
 					hitTaken: false,
 				});
 			}
@@ -43,31 +44,80 @@ function Gameboard() {
 			this.grid.forEach((square) => {
 				if (
 					square.x === xCoord &&
-					square.y === yCoord &&
-					square.occupied === false
+					square.y === yCoord
 				) {
 					startSquare = square;
 				}
 			});
 
-            // Check if there is space to create ship
-            let canBuild = true;
+			if (startSquare.occupied) return false;
 
-            if (orientation === 'horizontal') {
-                for (let i = xCoord; i < xCoord + length; i++) {
-                    this.grid.forEach(square => {
-                        if (square.x === i && square.y === startSquare.y && square.occupied) {
-                            canBuild = false;
-                        }
-                    });
-                }
-            } else if (orientation === 'vertical') {
-                for (let i = yCoord; i < yCoord + length; i++) {
-                
-                }
-            }
+			// Check if there is space to create ship and coords are in range
+			let cantBuild = false;
+			if (orientation === 'horizontal') {
+				for (let i = xCoord; i < xCoord + length; i++) {
+					if (i > 10) return false;
+					this.grid.forEach((square) => {
+						if (
+							square.x === i &&
+							square.y === startSquare.y &&
+							square.occupied
+						) {
+							cantBuild = true;
+						}
+					});
+				}
+			} else if (orientation === 'vertical') {
+				for (let i = yCoord; i < yCoord + length; i++) {
+					if (i > 10) return false;
+					this.grid.forEach((square) => {
+						if (
+							square.x === startSquare.x &&
+							square.y === i &&
+							square.occupied
+						) {
+							cantBuild = true;
+						}
+					});
+				}
+			}
+			if (cantBuild) return false;
 
-            
+			// Build ship
+			const newShip = Ship(length);
+			if (orientation === 'horizontal') {
+				for (let i = xCoord; i < xCoord + length; i++) {
+					this.grid.forEach((square) => {
+						if (
+							square.x === i &&
+							square.y === startSquare.y &&
+							!square.occupied
+						) {
+							square.occupied = newShip;
+							square.shipType = shipType;
+						}
+					});
+				}
+			} else if (orientation === 'vertical') {
+				for (let i = yCoord; i < yCoord + length; i++) {
+					this.grid.forEach((square) => {
+						if (
+							square.x === startSquare.x &&
+							square.y === i &&
+							!square.occupied
+						) {
+							square.occupied = newShip;
+							square.shipType = shipType;
+						}
+					});
+				}
+			}
+		},
+
+		getSquare(xCoord, yCoord) {
+			return this.grid.find(
+				(square) => square.x === xCoord && square.y === yCoord
+			);
 		},
 
 		receiveAttack(xCoord, yCoord) {
@@ -75,20 +125,25 @@ function Gameboard() {
 				if (square.x === xCoord && square.y === yCoord) {
 					if (square.occupied === false && square.hitTaken === false) {
 						square.hitTaken = 'miss';
-					} else if (square.occupied === true && square.hitTaken === false) {
+					} else if (square.occupied && square.hitTaken === false) {
 						square.hitTaken = 'damage';
+						square.occupied.takeHit();
 					}
 				}
 			});
+			this.checkFleetCondition();
 		},
 
-		// checkFleetCondition() {
-
-		// }
+		checkFleetCondition() {
+			const fleetDeployed = this.grid.some((square) => square.occupied);
+			const fleetAlive = this.grid.some(
+				(square) => square.occupied && !square.hitTaken
+			);
+			if (fleetDeployed && !fleetAlive) {
+				this.gameLost = true;
+			}
+		},
 	};
 }
-
-// const board = Gameboard();
-// console.log(board)
 
 export default Gameboard;
