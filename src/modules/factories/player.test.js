@@ -1,0 +1,1 @@
+// Mock enemy's board

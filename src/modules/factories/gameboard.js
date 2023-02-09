@@ -1,6 +1,4 @@
 /* eslint-disable no-loop-func */
-import Ship from './ship';
-
 function Gameboard() {
 	let grid;
 
@@ -25,7 +23,7 @@ function Gameboard() {
 		grid,
 		gameLost: false,
 
-		addShip(xCoord, yCoord, orientation, shipType) {
+		addShip(xCoord, yCoord, orientation, shipType, shipFactory) {
 			let startSquare;
 			let length;
 
@@ -42,10 +40,7 @@ function Gameboard() {
 			}
 
 			this.grid.forEach((square) => {
-				if (
-					square.x === xCoord &&
-					square.y === yCoord
-				) {
+				if (square.x === xCoord && square.y === yCoord) {
 					startSquare = square;
 				}
 			});
@@ -84,7 +79,7 @@ function Gameboard() {
 			if (cantBuild) return false;
 
 			// Build ship
-			const newShip = Ship(length);
+			const newShip = shipFactory(length);
 			if (orientation === 'horizontal') {
 				for (let i = xCoord; i < xCoord + length; i++) {
 					this.grid.forEach((square) => {
