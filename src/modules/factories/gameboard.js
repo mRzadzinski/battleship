@@ -117,16 +117,18 @@ function Gameboard() {
 
 		receiveAttack(xCoord, yCoord) {
 			const square = this.grid.find((sq) => sq.x === xCoord && sq.y === yCoord);
-
+			
+			if (square.hitTaken) {
+				return false;
+			} 
 			if (!square.occupied && !square.hitTaken) {
 				square.hitTaken = 'miss';
 			} else if (square.occupied && !square.hitTaken) {
 				square.hitTaken = 'damage';
 				square.occupied.takeHit();
-			} else if (square.occupied && square.hitTaken) {
-				return true;
 			}
 			this.checkFleetCondition();
+			return true;
 		},
 
 		checkFleetCondition() {

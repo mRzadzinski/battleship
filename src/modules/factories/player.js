@@ -18,11 +18,8 @@ function Player() {
 			while (!shotFired) {
 				const xCoord = Math.floor(Math.random() * 10) + 1;
 				const yCoord = Math.floor(Math.random() * 10) + 1;
-				const attackStatus = enemyBoard.receiveAttack(xCoord, yCoord);
 
-				if (!attackStatus) {
-					shotFired = true;
-				}
+				shotFired = enemyBoard.receiveAttack(xCoord, yCoord);
 			}
 
 			if (enemyBoard.gameLost) {
@@ -31,5 +28,10 @@ function Player() {
 		},
 	};
 }
+
+const player = Player();
+const enemyBoard = Gameboard();
+player.randomAttack(enemyBoard);
+console.log(enemyBoard.grid.some(sq => sq.hitTaken))
 
 export default Player;

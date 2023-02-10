@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import Player from './player';
 
-// Mock enemy's board
 let player;
 let enemyBoard;
 
@@ -30,7 +29,11 @@ beforeEach(() => {
 			const square = this.grid.find((sq) => sq.x === xCoord && sq.y === yCoord);
 			if (!square.hitTaken) {
 				square.hitTaken = 'miss';
+                return true;
 			}
+            if (square.hitTaken) {
+                return false;
+            }
 		},
 	};
 });
@@ -51,7 +54,7 @@ test("attack damages enemy's square", () => {
 
 test("randomAttack works", () => {
     player.randomAttack(enemyBoard);
-    const attackedSquare = enemyBoard.grid.find(sq => sq.hitTaken);
+    const attackedSquare = enemyBoard.grid.some(sq => sq.hitTaken);
 
-    expect(attackedSquare).toBeTruthy();
+    expect(attackedSquare).toBe(true);
 });
