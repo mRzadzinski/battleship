@@ -116,16 +116,16 @@ function Gameboard() {
 		},
 
 		receiveAttack(xCoord, yCoord) {
-			this.grid.forEach((square) => {
-				if (square.x === xCoord && square.y === yCoord) {
-					if (square.occupied === false && square.hitTaken === false) {
-						square.hitTaken = 'miss';
-					} else if (square.occupied && square.hitTaken === false) {
-						square.hitTaken = 'damage';
-						square.occupied.takeHit();
-					}
-				}
-			});
+			const square = this.grid.find((sq) => sq.x === xCoord && sq.y === yCoord);
+
+			if (!square.occupied && !square.hitTaken) {
+				square.hitTaken = 'miss';
+			} else if (square.occupied && !square.hitTaken) {
+				square.hitTaken = 'damage';
+				square.occupied.takeHit();
+			} else if (square.occupied && square.hitTaken) {
+				return true;
+			}
 			this.checkFleetCondition();
 		},
 
