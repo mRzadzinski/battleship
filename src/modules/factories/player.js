@@ -29,9 +29,4 @@ function Player() {
 	};
 }
 
-const player = Player();
-const enemyBoard = Gameboard();
-player.randomAttack(enemyBoard);
-console.log(enemyBoard.grid.some(sq => sq.hitTaken))
-
 export default Player;
