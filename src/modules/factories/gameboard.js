@@ -1,4 +1,6 @@
 /* eslint-disable no-loop-func */
+import Ship from "./ship";
+
 function Gameboard() {
 	let grid;
 
@@ -23,7 +25,7 @@ function Gameboard() {
 		grid,
 		gameLost: false,
 
-		addShip(xCoord, yCoord, orientation, shipType, shipFactory) {
+		addShip(xCoord, yCoord, orientation, shipType) {
 			let startSquare;
 			let length;
 
@@ -79,7 +81,7 @@ function Gameboard() {
 			if (cantBuild) return false;
 
 			// Build ship
-			const newShip = shipFactory(length);
+			const newShip = Ship(length);
 			if (orientation === 'horizontal') {
 				for (let i = xCoord; i < xCoord + length; i++) {
 					this.grid.forEach((square) => {
@@ -106,6 +108,34 @@ function Gameboard() {
 						}
 					});
 				}
+			}
+			return true;
+		},
+
+		randomFleetPlacement() {
+			this.randomShipPlacement('Patrol Boat');
+			this.randomShipPlacement('Submarine');
+			this.randomShipPlacement('Destroyer');
+			this.randomShipPlacement('Battleship');
+			this.randomShipPlacement('Carrier');
+		},
+
+		randomShipPlacement(shipType) {
+			let shipBuilt = false;
+
+			while (!shipBuilt) {
+				let orientation;
+				const orientationNumber = Math.floor(Math.random() * 2) + 1;
+				const xCoord = Math.floor(Math.random() * 10) + 1;
+				const yCoord = Math.floor(Math.random() * 10) + 1;
+
+				if (orientationNumber === 1) {
+					orientation = 'horizontal';
+				} else {
+					orientation = 'vertical';
+				}
+
+				shipBuilt = this.addShip(xCoord, yCoord, orientation, shipType);
 			}
 		},
 

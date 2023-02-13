@@ -18,9 +18,9 @@ square.classList.add('square');
 for (let i = 1; i < 11; i++) {
 	playerBoard.appendChild(row.cloneNode());
 	for (let j = 1; j < 11; j++) {
-        const tempSquare = square.cloneNode();
-        tempSquare.setAttribute('data-x', i);
-        tempSquare.setAttribute('data-y', j);
+		const tempSquare = square.cloneNode();
+		tempSquare.setAttribute('data-x', j);
+		tempSquare.setAttribute('data-y', i);
 
 		playerBoard.lastChild.appendChild(tempSquare);
 	}
@@ -33,3 +33,46 @@ aiBoard.style.display = 'none';
 
 left.appendChild(playerBoard);
 right.appendChild(aiBoard);
+
+function populateDomBoard(player, gridObject) {
+	let squareHTML;
+	let gridHTML;
+
+	if (player === 'player') {
+		gridHTML = playerBoard;
+	} else if (player === 'ai') {
+		gridHTML = aiBoard;
+	}
+
+	// Find HTML equivalent of square object by coordinates
+	gridObject.forEach((squareObj) => {
+		if (squareObj.occupied) {
+            gridHTML.childNodes.forEach((rowHTML) => {
+                rowHTML.childNodes.forEach((sq) => {
+                    if (
+                        squareObj.x === +sq.getAttribute('data-x') &&
+                        squareObj.y === +sq.getAttribute('data-y')
+                    ) {
+                        squareHTML = sq;
+                        sq.style.backgroundColor = 'pink';
+                    }
+                });
+            });
+
+            if (squareObj.shipType === 'Patrol Boat') {
+                squareHTML.style.backgroundColor = 'rgb(80, 180, 226)'
+            } else if (squareObj.shipType === 'Submarine') {
+                squareHTML.style.backgroundColor = 'rgb(0, 184, 144)'
+            } else if (squareObj.shipType === 'Destroyer') {
+                squareHTML.style.backgroundColor = 'rgb(246, 215, 60)'
+            } else if (squareObj.shipType === 'Battleship') {
+                squareHTML.style.backgroundColor = 'rgb(255, 155, 133)'
+            } else if (squareObj.shipType === 'Carrier') {
+                squareHTML.style.backgroundColor = 'rgb(250, 108, 56)'
+            }
+		}
+	});
+}
+
+
+export default populateDomBoard;
