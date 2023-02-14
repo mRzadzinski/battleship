@@ -3,6 +3,9 @@ import gitIcon from '../img/github.png';
 const gitImg = document.querySelector('#github');
 gitImg.src = gitIcon;
 
+const startBtn = document.querySelector('.start')
+const randomBtn = document.querySelector('.random')
+
 const left = document.querySelector('.left');
 const right = document.querySelector('.right');
 
@@ -74,5 +77,13 @@ function populateDomBoard(player, gridObject) {
 	});
 }
 
+function resetPlayerGridHTML() {
+    playerBoard.childNodes.forEach((rowHTML) => {
+        rowHTML.childNodes.forEach((sq) => {
+            sq.style.backgroundColor = 'rgb(31, 41, 55)';
+        });
+    });
+}
 
-export default populateDomBoard;
+
+export { startBtn, randomBtn, populateDomBoard, resetPlayerGridHTML };

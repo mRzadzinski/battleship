@@ -25,6 +25,14 @@ function Gameboard() {
 		grid,
 		gameLost: false,
 
+		clearGrid() {
+			this.grid.forEach(square => {
+				square.occupied = false;
+				square.shipType = false;
+				square.hitTaken = false;
+			}); 
+		},
+
 		addShip(xCoord, yCoord, orientation, shipType) {
 			let startSquare;
 			let length;

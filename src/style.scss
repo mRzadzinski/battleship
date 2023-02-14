@@ -8,12 +8,11 @@ body {
 	padding: 0;
 
 	width: 100vw;
-    min-width: 950px;
+	min-width: 950px;
 	height: 100vh;
-    min-height: 650px;
+	min-height: 650px;
 
-
-    font-family: 'Roboto Mono', monospace;
+	font-family: 'Roboto Mono', monospace;
 }
 
 .title {
@@ -26,6 +25,7 @@ body {
 	color: white;
 	font-family: 'Unbounded', cursive;
 	font-size: 80px;
+	margin-top: 30px;
 }
 
 .game-container {
@@ -44,7 +44,8 @@ body {
 		align-items: center;
 
 		width: 50vw;
-		height: 100%;
+		height: 500px;
+		margin-top: -2%;
 	}
 
 	.left {
@@ -55,15 +56,27 @@ body {
 	}
 
 	.options {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-shrink: 0;
-		width: 380px;
-        height: 150px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		flex-shrink: 0;
+		gap: 20px;
 
-        text-align: center;
-		font-size: 40px;
+		width: 380px;
+		height: 500px;
+		text-align: center;
+		font-size: 33px;
+		line-height: 52px;
+
+		.rotate-instruction {
+			height: 135px;
+			border-bottom: 2px solid white;
+		}
+
+		.random-deployment {
+			display: flex;
+		}
 	}
 }
 
@@ -92,7 +105,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 45px;
+	height: 70px;
 	width: 100vw;
 	text-align: center;
 	font-size: 15px;
@@ -108,4 +121,70 @@ body {
 
 #github:hover {
 	transform: scale(1.1);
+}
+
+// Button from https://dev.to/webdeasy/top-20-css-buttons-animations-f41
+// author jemware. Adjusted a bit to my own needs.
+.button {
+	position: relative;
+	display: inline-block;
+	margin: 25px 10px 0 10px;
+
+	width: 190px;
+	transform: scale(.83);
+	line-height: 21px;
+}
+
+.button a {
+	color: white;
+	font-family: Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 25px;
+	text-align: center;
+	text-decoration: none;
+	background-color: rgb(181, 94, 75);
+	display: block;
+	position: relative;
+	padding: 20px 40px;
+
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	text-shadow: 0px 1px 0px #000;
+	filter: dropshadow(color=#000, offx=0px, offy=1px);
+
+	-webkit-box-shadow: inset 0 1px 0 #ffe5c4, 0 8px 0 #6e3e00;
+	-moz-box-shadow: inset 0 1px 0 #ffe5c4, 0 8px 0 #6e3e00;
+	box-shadow: inset 0 1px 0 #ffe5c4, 0 8px 0 #6e3e00;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.button a:active {
+	top: 10px;
+	background-color: rgb(181, 94, 75);
+
+	-webkit-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #915100;
+	-moz-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #915100;
+	box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #915100;
+}
+
+.button.start a,
+.button.start a:active {
+	background-color: #c31212;
+}
+
+.button:after {
+	content: '';
+	height: 100%;
+	width: 100%;
+	padding: 4px;
+	position: absolute;
+	bottom: -15px;
+	left: -4px;
+	z-index: -1;
+	background-color: #2b1800;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
