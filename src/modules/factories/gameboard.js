@@ -36,7 +36,7 @@ function Gameboard() {
 		// Check if there is space to create ship and coords are in range
 		checkSpaceForShip(xCoord, yCoord, length, orientation) {
 			const startSquare = this.getSquare(xCoord, yCoord);
-			let cantBuild = false;
+			let noSpace = false;
 
 			if (orientation === 'horizontal') {
 				for (let i = xCoord; i < xCoord + length; i++) {
@@ -47,7 +47,7 @@ function Gameboard() {
 							square.y === startSquare.y &&
 							square.occupied
 						) {
-							cantBuild = true;
+							noSpace = true;
 						}
 					});
 				}
@@ -60,12 +60,12 @@ function Gameboard() {
 							square.y === i &&
 							square.occupied
 						) {
-							cantBuild = true;
+							noSpace = true;
 						}
 					});
 				}
 			}
-			return cantBuild;
+			return noSpace;
 		},
 
 		addShip(xCoord, yCoord, orientation, shipType) {

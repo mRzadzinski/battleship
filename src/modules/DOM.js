@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import shipTypes from './shipTypes';
 import gitIcon from '../img/github.png';
 
@@ -21,6 +22,7 @@ square.classList.add('square');
 // Create grid
 for (let i = 1; i < 11; i++) {
 	playerBoard.appendChild(row.cloneNode());
+	playerBoard.lastChild.setAttribute('data-y', i);
 	for (let j = 1; j < 11; j++) {
 		const tempSquare = square.cloneNode();
 		tempSquare.setAttribute('data-x', j);
@@ -81,8 +83,6 @@ function populateBoardHTML(player, gridObject) {
 		} else {
 			squareHTML.style.backgroundColor = 'rgb(31, 41, 55)';
 		}
-		
-
 	});
 }
 
@@ -112,19 +112,103 @@ function addFleetDeploymentListener(orientation, gameboardObj) {
 
 	playerBoard.childNodes.forEach((rowHTML) => {
 		rowHTML.childNodes.forEach((sq) => {
-			const sqX = sq.getAttribute('data-x');
-			const sqY = sq.getAttribute('data-y');
+			const sqX = +sq.getAttribute('data-x');
+			const sqY = +sq.getAttribute('data-y');
+			let shipTypeObj;
+			let shipLength;
+
+			// Check if particular ship type has been already deployed
+			if (!gameboardObj.grid.some((el) => el.shipType === shipTypes[0].type)) {
+				shipLength = shipTypes[0].length;
+				shipTypeObj = shipTypes[0];
+			} else if (
+				!gameboardObj.grid.some((el) => el.shipType === shipTypes[1].type)
+			) {
+				shipLength = shipTypes[1].length;
+				shipTypeObj = shipTypes[1];
+			} else if (
+				!gameboardObj.grid.some((el) => el.shipType === shipTypes[2].type)
+			) {
+				shipLength = shipTypes[2].length;
+				shipTypeObj = shipTypes[2];
+			} else if (
+				!gameboardObj.grid.some((el) => el.shipType === shipTypes[3].type)
+			) {
+				shipLength = shipTypes[3].length;
+				shipTypeObj = shipTypes[3];
+			} else if (
+				!gameboardObj.grid.some((el) => el.shipType === shipTypes[4].type)
+			) {
+				shipLength = shipTypes[4].length;
+				shipTypeObj = shipTypes[4];
+			}
+
+			// Check if ship can be built
+			const noSpace = gameboardObj.checkSpaceForShip(
+				sqX,
+				sqY,
+				shipLength,
+				orientation
+			);
 
 			// Show on grid if ship can be added
 			sq.addEventListener('mouseover', () => {
-				if (!gameboardObj.grid.some((el) => el.shipType === 'Carrier')) {
-					const noSpace = gameboardObj.checkSpaceForShip(sqX, sqY, 5, orientation);
-					console.log(noSpace)
+				if (orientation === 'horizontal') {
+					for (let i = sqX; i < sqX + shipLength; i++) {
+						if (i > 10) break;
+
+						playerBoard.childNodes.forEach((rw) => {
+							rw.childNodes.forEach((sqr) => {
+								if (
+									+sqr.getAttribute('data-x') === i &&
+									+sqr.getAttribute('data-y') === sqY
+								) {
+									// If ship can't be built gray out squares
+									if (noSpace) {
+										sqr.style.backgroundColor = 'rgb(88, 88, 88)';
+									// Otherwise show proper ship color
+									} else {
+										sqr.style.backgroundColor = shipTypeObj.color;
+									}
+								}
+							});
+						});
+					}
+				} else if (orientation === 'vertical') {
+					for (let i = sqY; i < sqY + shipLength; i++) {
+						if (i > 10) break;
+
+						playerBoard.childNodes.forEach((rw) => {
+							rw.childNodes.forEach((sqr) => {
+								if (
+									+sqr.getAttribute('data-x') === sqX &&
+									+sqr.getAttribute('data-y') === i
+								) {
+									if (noSpace) {
+										sqr.style.backgroundColor = 'rgb(88, 88, 88)';
+									} else {
+										sqr.style.backgroundColor = shipTypeObj.color;
+									}
+								}
+							});
+						});
+					}
 				}
 			});
+
 			// When leaving grid cell remove deployment indication
 			sq.addEventListener('mouseleave', () => {
 				populateBoardHTML('player', gameboardObj.grid);
+			});
+
+			// On click add ship to player's board object
+			sq.addEventListener('click', () => {
+				if (!noSpace) {
+					gameboardObj.addShip(sqX, sqY, orientation, shipTypeObj.type);
+					removeGridListeners();
+					addFleetDeploymentListener(orientation, gameboardObj);
+
+				}
 			});
 		});
 	});

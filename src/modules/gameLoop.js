@@ -1,5 +1,4 @@
 import Player from './factories/player';
-import shipTypes from './shipTypes';
 import {
 	startBtn,
 	randomBtn,
@@ -36,6 +35,8 @@ document.addEventListener('keypress', (e) => {
 		} else if (orientation === 'vertical') {
 			orientation = 'horizontal';
 		}
+		resetGridHTML('player');
+		populateBoardHTML('player', player.gameboard.grid);
         addFleetDeploymentListener(orientation, player.gameboard);
 	}
 });
