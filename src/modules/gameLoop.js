@@ -14,6 +14,22 @@ const ai = Player();
 // AI random fleet deployment
 ai.gameboard.randomFleetPlacement();
 
+ai.gameboard.grid[0].occupied = true;
+ai.gameboard.grid[0].hitTaken = true;
+
+ai.gameboard.grid[10].occupied = false;
+ai.gameboard.grid[10].hitTaken = true;
+
+ai.gameboard.grid[2].occupied = true;
+ai.gameboard.grid[2].hitTaken = false;
+
+ai.gameboard.grid[3].occupied = false;
+ai.gameboard.grid[3].hitTaken = false;
+
+populateBoardHTML('ai', ai.gameboard.grid);
+
+console.log (ai.gameboard.grid)
+
 // Player random fleet deployment
 randomBtn.addEventListener('click', () => {
 	player.gameboard.clearGrid();
@@ -40,9 +56,3 @@ document.addEventListener('keypress', (e) => {
         addFleetDeploymentListener(orientation, player.gameboard);
 	}
 });
-
-// player.gameboard.addShip(1, 1, 'horizontal', 'Carrier');
-// player.gameboard.addShip(3, 2, 'horizontal', 'Patrol Boat');
-// player.gameboard.addShip(5, 4, 'horizontal', 'Submarine');
-// player.gameboard.addShip(2, 6, 'horizontal', 'Destroyer');
-// player.gameboard.addShip(7, 6, 'vertical', 'Battleship');

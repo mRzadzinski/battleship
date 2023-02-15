@@ -166,9 +166,9 @@ function Gameboard() {
 				return false;
 			}
 			if (!square.occupied && !square.hitTaken) {
-				square.hitTaken = 'miss';
+				square.hitTaken = true;
 			} else if (square.occupied && !square.hitTaken) {
-				square.hitTaken = 'damage';
+				square.hitTaken = true;
 				square.occupied.takeHit();
 			}
 			this.checkFleetCondition();

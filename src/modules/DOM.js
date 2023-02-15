@@ -3,17 +3,16 @@ import shipTypes from './shipTypes';
 import gitIcon from '../img/github.png';
 
 const gitImg = document.querySelector('#github');
-gitImg.src = gitIcon;
-
 const startBtn = document.querySelector('.start');
 const randomBtn = document.querySelector('.random');
-
 const left = document.querySelector('.left');
 const right = document.querySelector('.right');
-
+const options = document.querySelector('.options');
 const row = document.createElement('div');
 const square = document.createElement('div');
 let playerBoard = document.createElement('div');
+
+gitImg.src = gitIcon;
 
 playerBoard.classList.add('board');
 row.classList.add('row');
@@ -22,7 +21,7 @@ square.classList.add('square');
 // Create grid
 for (let i = 1; i < 11; i++) {
 	playerBoard.appendChild(row.cloneNode());
-	playerBoard.lastChild.setAttribute('data-y', i);
+
 	for (let j = 1; j < 11; j++) {
 		const tempSquare = square.cloneNode();
 		tempSquare.setAttribute('data-x', j);
@@ -68,20 +67,26 @@ function populateBoardHTML(player, gridObject) {
 			});
 		});
 
-		if (squareObj.occupied) {
-			if (squareObj.shipType === 'Patrol Boat') {
-				squareHTML.style.backgroundColor = 'rgb(80, 180, 226)';
-			} else if (squareObj.shipType === 'Submarine') {
-				squareHTML.style.backgroundColor = 'rgb(0, 184, 144)';
-			} else if (squareObj.shipType === 'Destroyer') {
-				squareHTML.style.backgroundColor = 'rgb(246, 215, 60)';
-			} else if (squareObj.shipType === 'Battleship') {
-				squareHTML.style.backgroundColor = 'rgb(255, 155, 133)';
-			} else if (squareObj.shipType === 'Carrier') {
-				squareHTML.style.backgroundColor = 'rgb(250, 108, 56)';
-			}
-		} else {
+		
+		if (!squareObj.occupied && !squareObj.hitTaken) {
 			squareHTML.style.backgroundColor = 'rgb(31, 41, 55)';
+		} else if (squareObj.occupied && !squareObj.hitTaken && player !== 'ai') {
+			if (squareObj.shipType === shipTypes[4].type) {
+				squareHTML.style.backgroundColor = shipTypes[4].color;
+			} else if (squareObj.shipType === shipTypes[3].type) {
+				squareHTML.style.backgroundColor = shipTypes[3].color;
+			} else if (squareObj.shipType === shipTypes[2].type) {
+				squareHTML.style.backgroundColor = shipTypes[2].color;
+			} else if (squareObj.shipType === shipTypes[1].type) {
+				squareHTML.style.backgroundColor = shipTypes[1].color;
+			} else if (squareObj.shipType === shipTypes[0].type) {
+				squareHTML.style.backgroundColor = shipTypes[0].color;
+			}
+		} else if (!squareObj.occupied && squareObj.hitTaken) {
+			console.log(squareHTML)
+			squareHTML.style.backgroundColor = 'rgb(88, 88, 88)';
+		} else if (squareObj.occupied && squareObj.hitTaken) {
+			squareHTML.style.backgroundColor = 'rgb(98, 0, 0)';
 		}
 	});
 }
@@ -166,7 +171,7 @@ function addFleetDeploymentListener(orientation, gameboardObj) {
 									// If ship can't be built gray out squares
 									if (noSpace) {
 										sqr.style.backgroundColor = 'rgb(88, 88, 88)';
-									// Otherwise show proper ship color
+										// Otherwise show proper ship color
 									} else {
 										sqr.style.backgroundColor = shipTypeObj.color;
 									}
@@ -207,12 +212,19 @@ function addFleetDeploymentListener(orientation, gameboardObj) {
 					gameboardObj.addShip(sqX, sqY, orientation, shipTypeObj.type);
 					removeGridListeners();
 					addFleetDeploymentListener(orientation, gameboardObj);
-
 				}
 			});
 		});
 	});
 }
+
+function addGameplayListeners() {}
+
+startBtn.onclick = () => {
+	aiBoard.style.display = 'flex';
+	options.style.display = 'none';
+	removeGridListeners();
+};
 
 export {
 	startBtn,
