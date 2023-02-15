@@ -1,14 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Template</title>
-<script defer src="bundle.js"></script></head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Battleship</title>
+	<script defer src="bundle.js"></script></head>
+	<body>
+		<div class="title">BATTLESHIP</div>
 
-   
-    
-</body>
+		<div class="game-container">
+			<div class="left"></div>
+			<div class="right">
+				<div class="options">
+					<div class="rotate-instruction">
+						Press 'R'<br />
+						to rotate the ship
+					</div>
+					<div class="random-deployment">
+						<div ontouchstart="">
+							<div class="button random">
+								<a href="#">RANDOM</a>
+							</div>
+						</div>
+						<div ontouchstart="">
+							<div class="button start">
+								<a href="#">START</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="footer">
+			by mRzadzinski&nbsp&nbsp;
+			<a href="https://github.com/mRzadzinski/battleship">
+				<img id="github" src="" alt="github" />
+			</a>
+		</div>
+	</body>
 </html>
