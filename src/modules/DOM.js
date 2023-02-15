@@ -55,19 +55,18 @@ function populateBoardHTML(player, gridObject) {
 
 	// Find HTML equivalent of square object by coordinates
 	gridObject.forEach((squareObj) => {
-		if (squareObj.occupied) {
-			gridHTML.childNodes.forEach((rowHTML) => {
-				rowHTML.childNodes.forEach((sq) => {
-					if (
-						squareObj.x === +sq.getAttribute('data-x') &&
-						squareObj.y === +sq.getAttribute('data-y')
-					) {
-						squareHTML = sq;
-						sq.style.backgroundColor = 'pink';
-					}
-				});
+		gridHTML.childNodes.forEach((rowHTML) => {
+			rowHTML.childNodes.forEach((sq) => {
+				if (
+					squareObj.x === +sq.getAttribute('data-x') &&
+					squareObj.y === +sq.getAttribute('data-y')
+				) {
+					squareHTML = sq;
+				}
 			});
+		});
 
+		if (squareObj.occupied) {
 			if (squareObj.shipType === 'Patrol Boat') {
 				squareHTML.style.backgroundColor = 'rgb(80, 180, 226)';
 			} else if (squareObj.shipType === 'Submarine') {
@@ -79,7 +78,11 @@ function populateBoardHTML(player, gridObject) {
 			} else if (squareObj.shipType === 'Carrier') {
 				squareHTML.style.backgroundColor = 'rgb(250, 108, 56)';
 			}
+		} else {
+			squareHTML.style.backgroundColor = 'rgb(31, 41, 55)';
 		}
+		
+
 	});
 }
 
@@ -104,21 +107,27 @@ function removeGridListeners() {
 	aiBoard = aiBoardClone;
 }
 
-function addFleetDeploymentListener(shipToDeploy, orientation, gameboardObj) {
+function addFleetDeploymentListener(orientation, gameboardObj) {
 	removeGridListeners();
 
-	playerBoard.childNodes.forEach(rowHTML => {
-        rowHTML.childNodes.forEach(sq => {
-            sq.addEventListener('mouseover', () => {
-                // if (shipToDeploy === 'Carrier') {
-                    
-                // }
-            });
-        });
-    });
+	playerBoard.childNodes.forEach((rowHTML) => {
+		rowHTML.childNodes.forEach((sq) => {
+			const sqX = sq.getAttribute('data-x');
+			const sqY = sq.getAttribute('data-y');
 
-
-
+			// Show on grid if ship can be added
+			sq.addEventListener('mouseover', () => {
+				if (!gameboardObj.grid.some((el) => el.shipType === 'Carrier')) {
+					const noSpace = gameboardObj.checkSpaceForShip(sqX, sqY, 5, orientation);
+					console.log(noSpace)
+				}
+			});
+			// When leaving grid cell remove deployment indication
+			sq.addEventListener('mouseleave', () => {
+				populateBoardHTML('player', gameboardObj.grid);
+			});
+		});
+	});
 }
 
 export {

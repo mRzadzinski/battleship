@@ -48,7 +48,6 @@ function Gameboard() {
 							square.occupied
 						) {
 							cantBuild = true;
-
 						}
 					});
 				}

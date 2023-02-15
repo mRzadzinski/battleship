@@ -24,10 +24,9 @@ randomBtn.addEventListener('click', () => {
 });
 
 // Player manual fleet deployment
-const shipToDeploy = shipTypes[0];
 let orientation = 'horizontal';
 
-addFleetDeploymentListener(shipToDeploy, orientation, player.gameboard);
+addFleetDeploymentListener(orientation, player.gameboard);
 
 // Toggle ship orientation
 document.addEventListener('keypress', (e) => {
@@ -37,7 +36,7 @@ document.addEventListener('keypress', (e) => {
 		} else if (orientation === 'vertical') {
 			orientation = 'horizontal';
 		}
-        addFleetDeploymentListener(shipToDeploy, orientation);
+        addFleetDeploymentListener(orientation, player.gameboard);
 	}
 });
 
