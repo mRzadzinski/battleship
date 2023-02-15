@@ -1,5 +1,5 @@
 /* eslint-disable no-loop-func */
-import Ship from "./ship";
+import Ship from './ship';
 
 function Gameboard() {
 	let grid;
@@ -26,15 +26,51 @@ function Gameboard() {
 		gameLost: false,
 
 		clearGrid() {
-			this.grid.forEach(square => {
+			this.grid.forEach((square) => {
 				square.occupied = false;
 				square.shipType = false;
 				square.hitTaken = false;
-			}); 
+			});
+		},
+
+		// Check if there is space to create ship and coords are in range
+		checkSpaceForShip(xCoord, yCoord, length, orientation) {
+			const startSquare = this.getSquare(xCoord, yCoord);
+			let cantBuild = false;
+
+			if (orientation === 'horizontal') {
+				for (let i = xCoord; i < xCoord + length; i++) {
+					if (i > 10) return true;
+					this.grid.forEach((square) => {
+						if (
+							square.x === i &&
+							square.y === startSquare.y &&
+							square.occupied
+						) {
+							cantBuild = true;
+
+						}
+					});
+				}
+			} else if (orientation === 'vertical') {
+				for (let i = yCoord; i < yCoord + length; i++) {
+					if (i > 10) return true;
+					this.grid.forEach((square) => {
+						if (
+							square.x === startSquare.x &&
+							square.y === i &&
+							square.occupied
+						) {
+							cantBuild = true;
+						}
+					});
+				}
+			}
+			return cantBuild;
 		},
 
 		addShip(xCoord, yCoord, orientation, shipType) {
-			let startSquare;
+			const startSquare = this.getSquare(xCoord, yCoord);
 			let length;
 
 			if (shipType === 'Patrol Boat') {
@@ -49,44 +85,15 @@ function Gameboard() {
 				length = 5;
 			}
 
-			this.grid.forEach((square) => {
-				if (square.x === xCoord && square.y === yCoord) {
-					startSquare = square;
-				}
-			});
-
 			if (startSquare.occupied) return false;
 
-			// Check if there is space to create ship and coords are in range
-			let cantBuild = false;
-			if (orientation === 'horizontal') {
-				for (let i = xCoord; i < xCoord + length; i++) {
-					if (i > 10) return false;
-					this.grid.forEach((square) => {
-						if (
-							square.x === i &&
-							square.y === startSquare.y &&
-							square.occupied
-						) {
-							cantBuild = true;
-						}
-					});
-				}
-			} else if (orientation === 'vertical') {
-				for (let i = yCoord; i < yCoord + length; i++) {
-					if (i > 10) return false;
-					this.grid.forEach((square) => {
-						if (
-							square.x === startSquare.x &&
-							square.y === i &&
-							square.occupied
-						) {
-							cantBuild = true;
-						}
-					});
-				}
-			}
-			if (cantBuild) return false;
+			const noSpace = this.checkSpaceForShip(
+				xCoord,
+				yCoord,
+				length,
+				orientation
+			);
+			if (noSpace) return false;
 
 			// Build ship
 			const newShip = Ship(length);
@@ -155,10 +162,10 @@ function Gameboard() {
 
 		receiveAttack(xCoord, yCoord) {
 			const square = this.grid.find((sq) => sq.x === xCoord && sq.y === yCoord);
-			
+
 			if (square.hitTaken) {
 				return false;
-			} 
+			}
 			if (!square.occupied && !square.hitTaken) {
 				square.hitTaken = 'miss';
 			} else if (square.occupied && !square.hitTaken) {

@@ -1,22 +1,45 @@
 import Player from './factories/player';
-import { startBtn, randomBtn, populateDomBoard, resetPlayerGridHTML } from './DOM';
+import shipTypes from './shipTypes';
+import {
+	startBtn,
+	randomBtn,
+	populateBoardHTML,
+	resetGridHTML,
+	addFleetDeploymentListener,
+} from './DOM';
 
+// Initialize players
 const player = Player();
 const ai = Player();
 
+// AI random fleet deployment
 ai.gameboard.randomFleetPlacement();
 
+// Player random fleet deployment
 randomBtn.addEventListener('click', () => {
-    player.gameboard.clearGrid();
-    resetPlayerGridHTML();
-
+	player.gameboard.clearGrid();
+	resetGridHTML('player');
 	player.gameboard.randomFleetPlacement();
-	populateDomBoard('player', player.gameboard.grid);
+	populateBoardHTML('player', player.gameboard.grid);
 });
 
-console.log(player.gameboard.grid);
+// Player manual fleet deployment
+const shipToDeploy = shipTypes[0];
+let orientation = 'horizontal';
 
-populateDomBoard('player', player.gameboard.grid);
+addFleetDeploymentListener(shipToDeploy, orientation, player.gameboard);
+
+// Toggle ship orientation
+document.addEventListener('keypress', (e) => {
+	if (e.code === 'KeyR') {
+		if (orientation === 'horizontal') {
+			orientation = 'vertical';
+		} else if (orientation === 'vertical') {
+			orientation = 'horizontal';
+		}
+        addFleetDeploymentListener(shipToDeploy, orientation);
+	}
+});
 
 // player.gameboard.addShip(1, 1, 'horizontal', 'Carrier');
 // player.gameboard.addShip(3, 2, 'horizontal', 'Patrol Boat');
