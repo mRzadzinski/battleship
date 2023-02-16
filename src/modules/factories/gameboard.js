@@ -176,11 +176,10 @@ function Gameboard() {
 		},
 
 		checkFleetCondition() {
-			const fleetDeployed = this.grid.some((square) => square.occupied);
 			const fleetAlive = this.grid.some(
 				(square) => square.occupied && !square.hitTaken
 			);
-			if (fleetDeployed && !fleetAlive) {
+			if (!fleetAlive) {
 				this.gameLost = true;
 			}
 		},

@@ -3,6 +3,8 @@ import shipTypes from './shipTypes';
 import gitIcon from '../img/github.png';
 
 const gameContainer = document.querySelector('.game-container');
+const score = document.querySelector('.score');
+const restartBtn = document.querySelector('.restart');
 const gitImg = document.querySelector('#github');
 const startBtn = document.querySelector('.start');
 const randomBtn = document.querySelector('.random');
@@ -12,8 +14,6 @@ const options = document.querySelector('.options');
 const row = document.createElement('div');
 const square = document.createElement('div');
 let playerBoard = document.createElement('div');
-
-gameContainer.classList.add('shrink');
 
 gitImg.src = gitIcon;
 
@@ -219,6 +219,23 @@ function addFleetDeploymentListener(orientation, gameboardObj) {
 	});
 }
 
+function endGame(winner) {
+    gameContainer.classList.add('shrink');
+
+    if (winner === 'player') {
+        playerBoard.classList.add('winner');
+        aiBoard.classList.add('loser');
+        score.innerHTML = 'You won!'
+    } else if (winner === 'ai') {
+        playerBoard.classList.add('loser');
+        aiBoard.classList.add('winner');
+        score.innerHTML = 'AI won!'
+    }
+
+    score.style.display = 'flex';
+    restartBtn.style.display = 'flex';
+}
+
 function addGameplayListeners(aiObject, playerObject) {
 	aiBoard.childNodes.forEach((rowHTML) => {
 		rowHTML.childNodes.forEach((sq) => {
@@ -236,10 +253,10 @@ function addGameplayListeners(aiObject, playerObject) {
 
 				if (aiObject.gameboard.gameLost) {
 					removeGridListeners();
-					console.log('you won')
+					endGame('player');
 				} else if (playerObject.gameboard.gameLost) {
 					removeGridListeners();
-					console.log('you loose')
+					endGame('ai');
 				}
 			});
 		});
@@ -252,9 +269,24 @@ startBtn.onclick = () => {
 	removeGridListeners();
 };
 
+restartBtn.onclick = () => {
+	resetGridHTML('player');
+	resetGridHTML('ai');
+
+	gameContainer.classList.remove('shrink');
+	aiBoard.style.display = 'none';
+	options.style.display = 'flex';
+    score.style.display = 'none';
+    restartBtn.style.display = 'none';
+
+	playerBoard.classList.remove('winner', 'loser');
+    aiBoard.classList.remove('winner', 'loser');
+};
+
 export {
 	startBtn,
 	randomBtn,
+	restartBtn,
 	populateBoardHTML,
 	resetGridHTML,
 	addFleetDeploymentListener,

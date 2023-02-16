@@ -2,6 +2,7 @@ import Player from './factories/player';
 import {
 	startBtn,
 	randomBtn,
+	restartBtn,
 	populateBoardHTML,
 	resetGridHTML,
 	addFleetDeploymentListener,
@@ -14,20 +15,6 @@ const ai = Player();
 
 // AI random fleet deployment
 ai.gameboard.randomFleetPlacement();
-
-// ai.gameboard.grid[0].occupied = true;
-// ai.gameboard.grid[0].hitTaken = true;
-
-// ai.gameboard.grid[10].occupied = false;
-// ai.gameboard.grid[10].hitTaken = true;
-
-// ai.gameboard.grid[2].occupied = true;
-// ai.gameboard.grid[2].hitTaken = false;
-
-// ai.gameboard.grid[3].occupied = false;
-// ai.gameboard.grid[3].hitTaken = false;
-
-populateBoardHTML('ai', ai.gameboard.grid);
 
 console.log (ai.gameboard.grid)
 
@@ -72,4 +59,9 @@ startBtn.addEventListener('click', () => {
 	addGameplayListeners(ai, player);
 });
 
-startBtn.click();
+restartBtn.addEventListener('click', () => {
+	player.gameboard.clearGrid();
+	ai.gameboard.clearGrid();
+
+	addFleetDeploymentListener(orientation, player.gameboard);
+});
