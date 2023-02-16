@@ -5,6 +5,7 @@ import {
 	populateBoardHTML,
 	resetGridHTML,
 	addFleetDeploymentListener,
+	addGameplayListeners,
 } from './DOM';
 
 // Initialize players
@@ -14,17 +15,17 @@ const ai = Player();
 // AI random fleet deployment
 ai.gameboard.randomFleetPlacement();
 
-ai.gameboard.grid[0].occupied = true;
-ai.gameboard.grid[0].hitTaken = true;
+// ai.gameboard.grid[0].occupied = true;
+// ai.gameboard.grid[0].hitTaken = true;
 
-ai.gameboard.grid[10].occupied = false;
-ai.gameboard.grid[10].hitTaken = true;
+// ai.gameboard.grid[10].occupied = false;
+// ai.gameboard.grid[10].hitTaken = true;
 
-ai.gameboard.grid[2].occupied = true;
-ai.gameboard.grid[2].hitTaken = false;
+// ai.gameboard.grid[2].occupied = true;
+// ai.gameboard.grid[2].hitTaken = false;
 
-ai.gameboard.grid[3].occupied = false;
-ai.gameboard.grid[3].hitTaken = false;
+// ai.gameboard.grid[3].occupied = false;
+// ai.gameboard.grid[3].hitTaken = false;
 
 populateBoardHTML('ai', ai.gameboard.grid);
 
@@ -55,4 +56,18 @@ document.addEventListener('keypress', (e) => {
 		populateBoardHTML('player', player.gameboard.grid);
         addFleetDeploymentListener(orientation, player.gameboard);
 	}
+});
+
+startBtn.addEventListener('click', () => {
+	// Check if fleet is deployed
+	const fleetDeployed = [];
+	player.gameboard.grid.forEach(sq => {
+		if (sq.occupied) fleetDeployed.push(true);
+	});	
+	// If not, deploy randomly
+	if (fleetDeployed.length !== 17) {
+		randomBtn.click();
+	}
+
+	addGameplayListeners(ai, player);
 });

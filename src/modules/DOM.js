@@ -67,7 +67,6 @@ function populateBoardHTML(player, gridObject) {
 			});
 		});
 
-		
 		if (!squareObj.occupied && !squareObj.hitTaken) {
 			squareHTML.style.backgroundColor = 'rgb(31, 41, 55)';
 		} else if (squareObj.occupied && !squareObj.hitTaken && player !== 'ai') {
@@ -83,7 +82,6 @@ function populateBoardHTML(player, gridObject) {
 				squareHTML.style.backgroundColor = shipTypes[0].color;
 			}
 		} else if (!squareObj.occupied && squareObj.hitTaken) {
-			console.log(squareHTML)
 			squareHTML.style.backgroundColor = 'rgb(88, 88, 88)';
 		} else if (squareObj.occupied && squareObj.hitTaken) {
 			squareHTML.style.backgroundColor = 'rgb(98, 0, 0)';
@@ -218,7 +216,32 @@ function addFleetDeploymentListener(orientation, gameboardObj) {
 	});
 }
 
-function addGameplayListeners() {}
+function addGameplayListeners(aiObject, playerObject) {
+	aiBoard.childNodes.forEach((rowHTML) => {
+		rowHTML.childNodes.forEach((sq) => {
+			const sqX = +sq.getAttribute('data-x');
+			const sqY = +sq.getAttribute('data-y');
+
+			sq.addEventListener('click', () => {
+				const attack = aiObject.gameboard.receiveAttack(sqX, sqY);
+				if (attack && !playerObject.gameWon) {
+					aiObject.randomAttack(playerObject.gameboard);
+				}
+
+				populateBoardHTML('player', playerObject.gameboard.grid);
+				populateBoardHTML('ai', aiObject.gameboard.grid);
+
+				if (aiObject.gameboard.gameLost) {
+					removeGridListeners();
+					console.log('you won')
+				} else if (playerObject.gameboard.gameLost) {
+					removeGridListeners();
+					console.log('you loose')
+				}
+			});
+		});
+	});
+}
 
 startBtn.onclick = () => {
 	aiBoard.style.display = 'flex';
@@ -232,4 +255,5 @@ export {
 	populateBoardHTML,
 	resetGridHTML,
 	addFleetDeploymentListener,
+	addGameplayListeners,
 };
