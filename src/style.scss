@@ -59,12 +59,8 @@ body {
 	transform: scale(.6);
 }
 
-.loser {
-	box-shadow: 0px 0px 29px 16px rgba(98, 0, 0, 1);
-}
-
 .winner {
-	box-shadow: 0px 0px 29px 16px rgba(0, 98, 0, 1);
+	box-shadow: 0px 0px 29px 5px rgb(255, 255, 255);
 }
 // </Endgame stylization>
 
