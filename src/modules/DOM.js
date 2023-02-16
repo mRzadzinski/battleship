@@ -2,6 +2,7 @@
 import shipTypes from './shipTypes';
 import gitIcon from '../img/github.png';
 
+const gameContainer = document.querySelector('.game-container');
 const gitImg = document.querySelector('#github');
 const startBtn = document.querySelector('.start');
 const randomBtn = document.querySelector('.random');
@@ -11,6 +12,8 @@ const options = document.querySelector('.options');
 const row = document.createElement('div');
 const square = document.createElement('div');
 let playerBoard = document.createElement('div');
+
+gameContainer.classList.add('shrink');
 
 gitImg.src = gitIcon;
 

@@ -71,3 +71,5 @@ startBtn.addEventListener('click', () => {
 
 	addGameplayListeners(ai, player);
 });
+
+startBtn.click();
