@@ -7,21 +7,18 @@ import {
 	resetGridHTML,
 	addFleetDeploymentListener,
 	addGameplayListeners,
+	removeGridListeners
 } from './DOM';
 
 // Initialize players
 const player = Player();
 const ai = Player();
 
-// AI random fleet deployment
-ai.gameboard.randomFleetPlacement();
-
-console.log (ai.gameboard.grid)
-
 // Player random fleet deployment
 randomBtn.addEventListener('click', () => {
 	player.gameboard.clearGrid();
 	resetGridHTML('player');
+	removeGridListeners()
 	player.gameboard.randomFleetPlacement();
 	populateBoardHTML('player', player.gameboard.grid);
 });
@@ -43,6 +40,13 @@ document.addEventListener('keypress', (e) => {
 		populateBoardHTML('player', player.gameboard.grid);
         addFleetDeploymentListener(orientation, player.gameboard);
 	}
+
+	if (e.code === 'KeyF') {
+		player.randomAttack(ai.gameboard)
+		ai.aiAttack(player.gameboard);
+		populateBoardHTML('player', player.gameboard.grid);
+		populateBoardHTML('ai', ai.gameboard.grid);
+	}
 });
 
 startBtn.addEventListener('click', () => {
@@ -56,6 +60,8 @@ startBtn.addEventListener('click', () => {
 		randomBtn.click();
 	}
 
+	// AI random fleet deployment
+	ai.gameboard.randomFleetPlacement();
 	addGameplayListeners(ai, player);
 });
 
@@ -65,3 +71,4 @@ restartBtn.addEventListener('click', () => {
 
 	addFleetDeploymentListener(orientation, player.gameboard);
 });
+

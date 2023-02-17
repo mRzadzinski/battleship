@@ -30,6 +30,8 @@ function Gameboard() {
 				square.occupied = false;
 				square.shipType = false;
 				square.hitTaken = false;
+
+				this.gameLost = false;
 			});
 		},
 
@@ -179,6 +181,7 @@ function Gameboard() {
 			const fleetAlive = this.grid.some(
 				(square) => square.occupied && !square.hitTaken
 			);
+
 			if (!fleetAlive) {
 				this.gameLost = true;
 			}

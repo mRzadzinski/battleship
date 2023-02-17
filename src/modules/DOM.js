@@ -244,8 +244,8 @@ function addGameplayListeners(aiObject, playerObject) {
 
 			sq.addEventListener('click', () => {
 				const attack = aiObject.gameboard.receiveAttack(sqX, sqY);
-				if (attack && !playerObject.gameWon) {
-					aiObject.randomAttack(playerObject.gameboard);
+				if (attack && !aiObject.gameboard.gameLost) {
+					aiObject.aiAttack(playerObject.gameboard);
 				}
 
 				populateBoardHTML('player', playerObject.gameboard.grid);
@@ -291,4 +291,5 @@ export {
 	resetGridHTML,
 	addFleetDeploymentListener,
 	addGameplayListeners,
+	removeGridListeners
 };
