@@ -4,7 +4,7 @@
 
 Want to try your prowess in naval warfare?
 
-[Play Battleship!](https://mrzadzinski.github.io/to-do-list/)
+[Play Battleship!](https://mrzadzinski.github.io/battleship/)
 
 ## Features
 * Intelligent AI opponent
