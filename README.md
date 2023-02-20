@@ -8,7 +8,7 @@ Want to try your prowess in naval warfare?
 
 ## Features
 * Intelligent AI opponent
-* Manual or random fleet deployment
+* Manual and random fleet deployment
 * Intuitive color indications
 
 ## Technologies
