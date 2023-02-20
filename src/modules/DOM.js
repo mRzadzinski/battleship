@@ -2,20 +2,22 @@
 import shipTypes from './shipTypes';
 import gitIcon from '../img/github.png';
 
-const gameContainer = document.querySelector('.game-container');
-const score = document.querySelector('.score');
-const restartBtn = document.querySelector('.restart');
 const gitImg = document.querySelector('#github');
-const startBtn = document.querySelector('.start');
-const randomBtn = document.querySelector('.random');
+gitImg.src = gitIcon;
+
+const gameContainer = document.querySelector('.game-container');
 const left = document.querySelector('.left');
 const right = document.querySelector('.right');
 const options = document.querySelector('.options');
+const score = document.querySelector('.score');
+
+const randomBtn = document.querySelector('.random');
+const startBtn = document.querySelector('.start');
+const restartBtn = document.querySelector('.restart');
+
 const row = document.createElement('div');
 const square = document.createElement('div');
 let playerBoard = document.createElement('div');
-
-gitImg.src = gitIcon;
 
 playerBoard.classList.add('board');
 row.classList.add('row');
@@ -42,15 +44,14 @@ aiBoard.style.display = 'none';
 left.appendChild(playerBoard);
 right.appendChild(aiBoard);
 
+// eslint-disable-next-line consistent-return
 function helperChoosePlayerGrid(player) {
-	let gridHTML;
-
 	if (player === 'player') {
-		gridHTML = playerBoard;
-	} else if (player === 'ai') {
-		gridHTML = aiBoard;
+		return playerBoard;
 	}
-	return gridHTML;
+	if (player === 'ai') {
+		return aiBoard;
+	}
 }
 
 function populateBoardHTML(player, gridObject) {
@@ -207,7 +208,7 @@ function addFleetDeploymentListener(orientation, gameboardObj) {
 				populateBoardHTML('player', gameboardObj.grid);
 			});
 
-			// On click add ship to player's board object
+			// Add ship to player's board object on click
 			sq.addEventListener('click', () => {
 				if (!noSpace) {
 					gameboardObj.addShip(sqX, sqY, orientation, shipTypeObj.type);
@@ -220,20 +221,18 @@ function addFleetDeploymentListener(orientation, gameboardObj) {
 }
 
 function endGame(winner) {
-    gameContainer.classList.add('shrink');
+	gameContainer.classList.add('shrink');
 
-    if (winner === 'player') {
-        playerBoard.classList.add('winner');
-        aiBoard.classList.add('loser');
-        score.innerHTML = 'You won!'
-    } else if (winner === 'ai') {
-        playerBoard.classList.add('loser');
-        aiBoard.classList.add('winner');
-        score.innerHTML = 'AI won!'
-    }
+	if (winner === 'player') {
+		playerBoard.classList.add('winner');
+		score.innerHTML = 'You won!';
+	} else if (winner === 'ai') {
+		aiBoard.classList.add('winner');
+		score.innerHTML = 'AI won!';
+	}
 
-    score.style.display = 'flex';
-    restartBtn.style.display = 'flex';
+	score.style.display = 'flex';
+	restartBtn.style.display = 'flex';
 }
 
 function addGameplayListeners(aiObject, playerObject) {
@@ -276,11 +275,11 @@ restartBtn.onclick = () => {
 	gameContainer.classList.remove('shrink');
 	aiBoard.style.display = 'none';
 	options.style.display = 'flex';
-    score.style.display = 'none';
-    restartBtn.style.display = 'none';
+	score.style.display = 'none';
+	restartBtn.style.display = 'none';
 
-	playerBoard.classList.remove('winner', 'loser');
-    aiBoard.classList.remove('winner', 'loser');
+	playerBoard.classList.remove('winner');
+	aiBoard.classList.remove('winner');
 };
 
 export {
@@ -291,5 +290,5 @@ export {
 	resetGridHTML,
 	addFleetDeploymentListener,
 	addGameplayListeners,
-	removeGridListeners
+	removeGridListeners,
 };

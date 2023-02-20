@@ -1,5 +1,4 @@
 /* eslint-disable no-loop-func */
-import Ship from './ship';
 
 function Gameboard() {
 	let grid;
@@ -72,8 +71,9 @@ function Gameboard() {
 
 		addShip(xCoord, yCoord, orientation, shipType) {
 			const startSquare = this.getSquare(xCoord, yCoord);
-			let length;
+			if (startSquare.occupied) return false;
 
+			let length;
 			if (shipType === 'Patrol Boat') {
 				length = 2;
 			} else if (shipType === 'Submarine') {
@@ -86,8 +86,6 @@ function Gameboard() {
 				length = 5;
 			}
 
-			if (startSquare.occupied) return false;
-
 			const noSpace = this.checkSpaceForShip(
 				xCoord,
 				yCoord,
@@ -97,7 +95,6 @@ function Gameboard() {
 			if (noSpace) return false;
 
 			// Build ship
-			const newShip = Ship(length);
 			if (orientation === 'horizontal') {
 				for (let i = xCoord; i < xCoord + length; i++) {
 					this.grid.forEach((square) => {
@@ -106,7 +103,7 @@ function Gameboard() {
 							square.y === startSquare.y &&
 							!square.occupied
 						) {
-							square.occupied = newShip;
+							square.occupied = true;
 							square.shipType = shipType;
 						}
 					});
@@ -119,7 +116,7 @@ function Gameboard() {
 							square.y === i &&
 							!square.occupied
 						) {
-							square.occupied = newShip;
+							square.occupied = true;
 							square.shipType = shipType;
 						}
 					});
@@ -167,12 +164,10 @@ function Gameboard() {
 			if (square.hitTaken) {
 				return false;
 			}
-			if (!square.occupied && !square.hitTaken) {
+			if (!square.hitTaken) {
 				square.hitTaken = true;
-			} else if (square.occupied && !square.hitTaken) {
-				square.hitTaken = true;
-				square.occupied.takeHit();
 			}
+
 			this.checkFleetCondition();
 			return true;
 		},

@@ -23,17 +23,18 @@ beforeEach(() => {
 
 	enemyBoard = {
 		grid: createGrid(),
-        gameLost: false,
+		gameLost: false,
 
+		// eslint-disable-next-line consistent-return
 		receiveAttack(xCoord, yCoord) {
 			const square = this.grid.find((sq) => sq.x === xCoord && sq.y === yCoord);
 			if (!square.hitTaken) {
 				square.hitTaken = 'miss';
-                return true;
+				return true;
 			}
-            if (square.hitTaken) {
-                return false;
-            }
+			if (square.hitTaken) {
+				return false;
+			}
 		},
 	};
 });
@@ -41,20 +42,20 @@ beforeEach(() => {
 test("attack damages enemy's square", () => {
 	const enemySquare = enemyBoard.grid.find((sq) => sq.x === 4 && sq.y === 7);
 	player.attack(4, 7, enemyBoard);
-    
-    expect(enemySquare.hitTaken).toBe('miss');
+
+	expect(enemySquare.hitTaken).toBe('miss');
 });
 
 test("attack damages enemy's square", () => {
-    enemyBoard.gameLost = true;
+	enemyBoard.gameLost = true;
 	player.attack(4, 7, enemyBoard);
-    
-    expect(player.gameWon).toBe(true);
+
+	expect(player.gameWon).toBe(true);
 });
 
-test("randomAttack works", () => {
-    player.randomAttack(enemyBoard);
-    const attackedSquare = enemyBoard.grid.some(sq => sq.hitTaken);
+test('randomAttack works', () => {
+	player.randomAttack(enemyBoard);
+	const attackedSquare = enemyBoard.grid.some((sq) => sq.hitTaken);
 
-    expect(attackedSquare).toBe(true);
+	expect(attackedSquare).toBe(true);
 });

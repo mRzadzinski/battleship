@@ -7,7 +7,7 @@ import {
 	resetGridHTML,
 	addFleetDeploymentListener,
 	addGameplayListeners,
-	removeGridListeners
+	removeGridListeners,
 } from './DOM';
 
 // Initialize players
@@ -18,7 +18,7 @@ const ai = Player();
 randomBtn.addEventListener('click', () => {
 	player.gameboard.clearGrid();
 	resetGridHTML('player');
-	removeGridListeners()
+	removeGridListeners();
 	player.gameboard.randomFleetPlacement();
 	populateBoardHTML('player', player.gameboard.grid);
 });
@@ -38,11 +38,11 @@ document.addEventListener('keypress', (e) => {
 		}
 		resetGridHTML('player');
 		populateBoardHTML('player', player.gameboard.grid);
-        addFleetDeploymentListener(orientation, player.gameboard);
+		addFleetDeploymentListener(orientation, player.gameboard);
 	}
 
 	if (e.code === 'KeyF') {
-		player.randomAttack(ai.gameboard)
+		player.randomAttack(ai.gameboard);
 		ai.aiAttack(player.gameboard);
 		populateBoardHTML('player', player.gameboard.grid);
 		populateBoardHTML('ai', ai.gameboard.grid);
@@ -52,9 +52,9 @@ document.addEventListener('keypress', (e) => {
 startBtn.addEventListener('click', () => {
 	// Check if fleet is deployed
 	const fleetDeployed = [];
-	player.gameboard.grid.forEach(sq => {
+	player.gameboard.grid.forEach((sq) => {
 		if (sq.occupied) fleetDeployed.push(true);
-	});	
+	});
 	// If not, deploy randomly
 	if (fleetDeployed.length !== 17) {
 		randomBtn.click();
@@ -71,4 +71,3 @@ restartBtn.addEventListener('click', () => {
 
 	addFleetDeploymentListener(orientation, player.gameboard);
 });
-

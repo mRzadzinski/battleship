@@ -50,13 +50,13 @@ body {
 
 	width: 100%;
 	bottom: 15%;
-	transform: scale(.85);
+	transform: scale(0.85);
 	transition: all 1s;
 }
 
 // Endgame stylization
 .game-container.shrink {
-	transform: scale(.6);
+	transform: scale(0.6);
 }
 
 .winner {
@@ -74,7 +74,6 @@ body {
 	height: 100%;
 	color: white;
 	transition: transform 1s;
-
 
 	.left,
 	.right {
@@ -165,14 +164,14 @@ body {
 }
 
 // Button from https://dev.to/webdeasy/top-20-css-buttons-animations-f41
-// author jemware. Adjusted a bit to my own needs.
+// author jemware. Adjusted to my own needs.
 .button {
 	position: relative;
 	display: inline-block;
 	margin: 25px 10px 0 10px;
 
 	width: 190px;
-	transform: scale(.83);
+	transform: scale(0.83);
 	line-height: 21px;
 }
 

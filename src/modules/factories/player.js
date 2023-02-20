@@ -2,10 +2,9 @@ import Gameboard from './gameboard';
 
 function Player() {
 	return {
-		gameboard: Gameboard(),		
+		gameboard: Gameboard(),
 		damagedEnemy: null,
 		lastDamagedEnemy: null,
-		enemyOrientation: null,
 		attackDirection: null,
 		directionsAttacked: [],
 
@@ -28,8 +27,7 @@ function Player() {
 			// Save coords of damaged ship
 			const damagedSquare = enemyBoard.getSquare(xCoord, yCoord);
 			if (damagedSquare.occupied && damagedSquare.hitTaken) {
-				this.damagedEnemy = enemyBoard.getSquare(xCoord, yCoord)
-				// { x: xCoord, y: yCoord, squareObj: damagedSquare };
+				this.damagedEnemy = enemyBoard.getSquare(xCoord, yCoord);
 			}
 		},
 
@@ -50,17 +48,10 @@ function Player() {
 		},
 
 		attackWithDirection(enemyBoard) {
-			const possibleShots = this.getPossibleShots(enemyBoard, this.lastDamagedEnemy);
-
-			// console.log(this.lastDamagedEnemy)
-			// console.log([
-			// 	'attackDirection:' + this.attackDirection ,
-			// 	'directionsAttacked:' + this.directionsAttacked,
-			// 	possibleShots.left,
-			// 	possibleShots.right,
-			// 	possibleShots.top,
-			// 	possibleShots.bottom,
-			// ]);
+			const possibleShots = this.getPossibleShots(
+				enemyBoard,
+				this.lastDamagedEnemy
+			);
 
 			if (this.attackDirection === 'left') {
 				if (
@@ -77,6 +68,7 @@ function Player() {
 				} else if (this.directionsAttacked.length === 0) {
 					this.directionsAttacked.push('left');
 					this.attackDirection = 'right';
+					// Change attack direction, and start from first damaged ship square
 					this.lastDamagedEnemy = this.damagedEnemy;
 					this.attackWithDirection(enemyBoard);
 					// Both directions attacked
@@ -148,14 +140,17 @@ function Player() {
 		},
 
 		aiAttack(enemyBoard) {
+			// Random attack hit enemy ship
 			if (this.damagedEnemy) {
-				// Get possible shots
-				const possibleShots = this.getPossibleShots(enemyBoard, this.damagedEnemy);
+				const possibleShots = this.getPossibleShots(
+					enemyBoard,
+					this.damagedEnemy
+				);
 
 				if (this.attackDirection) {
 					this.attackWithDirection(enemyBoard);
 
-					// Ship orientation unspecified
+					// Attack direction unspecified
 				} else if (!this.attackDirection) {
 					if (possibleShots.left && !possibleShots.left.hitTaken) {
 						enemyBoard.receiveAttack(
