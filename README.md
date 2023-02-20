@@ -2,23 +2,14 @@
 
 ![interface](./src/img/screenshot.png)
 
-[Check live!](https://mrzadzinski.github.io/to-do-list/)
+Want to try your prowess in naval warfare?
 
-Simplified reproduction of my favorite checklist app: Google Tasks.
-
-Dummy content provided for quick functionality test.
+[Play Battleship!](https://mrzadzinski.github.io/to-do-list/)
 
 ## Features
-
-* Create multiple lists
-* Move tasks between them
-* Sort tasks by:
-    * Name
-    * Date
-    * Custom
-* Expandible list for completed tasks
-* Delete all completed tasks at once
-* Local storage
+* Intelligent AI opponent
+* Manual or random fleet deployment
+* Intuitive color indications
 
 ## Technologies
 * JEST
@@ -28,13 +19,10 @@ Dummy content provided for quick functionality test.
 * HTML
 
 ## Skills practiced
-* Webpack setup
-* Usage of local storage
-* Usage of external library
-* Working with JS modules
-* Drag and drop API
-* DOM manipulation
+* Test Driven Development (basics tests in JEST)
+* Working with modules
+* Designing user friendly app
+
 
 ## Acknowledgments
-* This project was an assignment from The Odin Project course: [Todo List](https://www.theodinproject.com/lessons/node-path-javascript-todo-list)
-* Special thanks to Google Developers for creating my favorite checklist app, thus providing wonderful practice material
+* This project was an assignment from The Odin Project course: [Battleship](https://www.theodinproject.com/lessons/node-path-javascript-battleship)

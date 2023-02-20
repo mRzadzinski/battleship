@@ -40,13 +40,6 @@ document.addEventListener('keypress', (e) => {
 		populateBoardHTML('player', player.gameboard.grid);
 		addFleetDeploymentListener(orientation, player.gameboard);
 	}
-
-	if (e.code === 'KeyF') {
-		player.randomAttack(ai.gameboard);
-		ai.aiAttack(player.gameboard);
-		populateBoardHTML('player', player.gameboard.grid);
-		populateBoardHTML('ai', ai.gameboard.grid);
-	}
 });
 
 startBtn.addEventListener('click', () => {
