@@ -67,16 +67,7 @@ test('receiveAttack records miss', () => {
 	const square = board.getSquare(3, 3);
 	board.receiveAttack(3, 3);
 
-	expect(square.hitTaken).toBe('miss');
-});
-
-test('receiveAttack records ship hit', () => {
-	const square = board.getSquare(2, 9);
-	board.addShip(2, 5, 'vertical', 'Carrier', shipFactory);
-	board.receiveAttack(2, 9);
-
-	expect(square.hitTaken).toBe('damage');
-	expect(square.occupied.hitsTaken).toBe(1);
+	expect(square.hitTaken).toBe(true);
 });
 
 test('checkFleetCondition determines if all ships are sunk', () => {

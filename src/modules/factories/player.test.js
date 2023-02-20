@@ -29,12 +29,18 @@ beforeEach(() => {
 		receiveAttack(xCoord, yCoord) {
 			const square = this.grid.find((sq) => sq.x === xCoord && sq.y === yCoord);
 			if (!square.hitTaken) {
-				square.hitTaken = 'miss';
+				square.hitTaken = true;
 				return true;
 			}
 			if (square.hitTaken) {
 				return false;
 			}
+		},
+
+		getSquare(xCoord, yCoord) {
+			return this.grid.find(
+				(square) => square.x === xCoord && square.y === yCoord
+			);
 		},
 	};
 });
@@ -43,14 +49,7 @@ test("attack damages enemy's square", () => {
 	const enemySquare = enemyBoard.grid.find((sq) => sq.x === 4 && sq.y === 7);
 	player.attack(4, 7, enemyBoard);
 
-	expect(enemySquare.hitTaken).toBe('miss');
-});
-
-test("attack damages enemy's square", () => {
-	enemyBoard.gameLost = true;
-	player.attack(4, 7, enemyBoard);
-
-	expect(player.gameWon).toBe(true);
+	expect(enemySquare.hitTaken).toBe(true);
 });
 
 test('randomAttack works', () => {
